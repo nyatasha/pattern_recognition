@@ -1,23 +1,23 @@
 package ui_app;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-
-import javax.swing.JLabel;
-
-import org.opencv.core.Core;
+/*import org.opencv.core.Core;
 import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Imgproc;*/
+
 public class TemplateMatching {
 	private double corr_func = 0;
-	private Point matchLoc = new Point();
+	private Point matchLoc = new Point(0,0);
+	Graphics2D g2d;
+	int w, h, W, H;
 	public int[][] convertToHSI(BufferedImage bi, int w, int h){
 		int[] r = new int[w*h];
 		int[] g = new int[w*h];
@@ -38,10 +38,10 @@ public class TemplateMatching {
 		return ii;
 	}	
 	public double[][] compare(BufferedImage buf_image1_temp,BufferedImage buf_image2_temp, int formula_index){
-		int w = buf_image2_temp.getWidth();
-		int h = buf_image2_temp.getHeight();
-		int W = buf_image1_temp.getWidth();
-		int H = buf_image1_temp.getHeight();
+		w = buf_image2_temp.getWidth();
+		h = buf_image2_temp.getHeight();
+		W = buf_image1_temp.getWidth();
+		H = buf_image1_temp.getHeight();
 
 		double[][] result = new double[(W-w+1)][(H-h+1)];
 		
@@ -61,38 +61,33 @@ public class TemplateMatching {
 			templ_average /= w*h;
 			
 			double image_average = 0;
-			for(int x = 0; x < w; x++){
-				for(int y = 0; y < h; y++){
-					image_average += ti[x][y];
-				}
-			}
-			image_average /= w*h;
-			
-			/*double[][] templ_diff = new double[w][h];
-			for(int x = 0; x < w; x++){
-				for(int y = 0; y < h; y++){
-					templ_diff[x][y] = ti[x][y] - templ_average;
-				}
-			}*/
-			double templ_diff = 0;
-			double image_diff = 0;
+			double up_left = 0;
+			double up_right = 0;
 			double sum_up = 0;
-			double sum_down = 0;
+			double sum_down1 = 0;
+			double sum_down2 = 0;
 			for(int rx = 0; rx < (W-w+1); rx++){
 				for(int ry = 0; ry < (H-h+1); ry++){
+					image_average = 0;
 					for(int x = 0; x < w; x++){
 						for(int y = 0; y < h; y++){
-							templ_diff = ti[x][y] - templ_average;
-							image_diff = ii[x+rx][y+ry] - image_average;
-							sum_up += templ_diff * image_diff;
-							sum_down += Math.pow(templ_diff * image_diff, 2);
+							image_average += ii[x+rx][y+ry];
+						}
+					}
+					image_average /= w*h;
+					sum_up = 0;
+					sum_down1 = 0;
+					sum_down2 = 0;
+					for(int x = 0; x < w; x++){
+						for(int y = 0; y < h; y++){
+							up_left = ti[x][y] - templ_average;
+							up_right = ii[x+rx][y+ry] - image_average;
+							sum_up += up_left * up_right;
+							sum_down1 += Math.pow(up_left,2);
+							sum_down2 += Math.pow(up_right,2);
 						}
 					}	
-					//System.out.println("sum_down " + sum_down);
-					//System.out.println("sum_down2 " + Math.sqrt(sum_down));
-					result[rx][ry] = sum_up/Math.sqrt(sum_down)/100;
-					//System.out.println("sum_up " + sum_up);
-					//System.out.println("sum_down " + Math.sqrt(sum_down));
+					result[rx][ry] = sum_up/Math.sqrt(sum_down1)/Math.sqrt(sum_down2);
 					//System.out.println(result[rx][ry] + "["+rx+"]" +ry);
 				}		
 			}
@@ -102,6 +97,7 @@ public class TemplateMatching {
 			double sum = 0;
 			for(int rx = 0; rx < (W-w+1); rx++){
 				for(int ry = 0; ry < (H-h+1); ry++){
+					sum = 0;
 					for(int x = 0; x < w; x++){
 						for(int y = 0; y < h; y++){
 							sum += Math.pow((ti[x][y] - ii[x+rx][y+ry]), 2);
@@ -119,85 +115,85 @@ public class TemplateMatching {
 					templ_average += ti[x][y];
 				}
 			}
-			templ_average /= w*h;
+			templ_average/=w*h;
 			
+			double up_left = 0;
+			double up_right = 0;
+			double down_left = 0;
+			double down_right = 0;
 			double image_average = 0;
-			for(int x = 0; x < w; x++){
-				for(int y = 0; y < h; y++){
-					image_average += ti[x][y];
-				}
-			}
-			image_average /= w*h;
-			
-			double templ_diff_sum = 0;
-			double[][] sum_left = new double[w][h];			
-			for(int x = 0; x < w; x++){
-				for(int y = 0; y < h; y++){
-					templ_diff_sum += Math.pow(ti[x][y] - templ_average, 2);
-				}
-			}
-			for(int x = 0; x < w; x++){
-				for(int y = 0; y < h; y++){
-					sum_left[x][y] = (ti[x][y] - templ_average)/Math.sqrt(templ_diff_sum);
-				}
-			}
-			double[][] sum_right = new double[W][H];
-			double[][] image_diff_sum = new double[W-w+1][H-h+1];
+			double sum = 0;
 			for(int rx = 0; rx < (W-w+1); rx++){
 				for(int ry = 0; ry < (H-h+1); ry++){
+					image_average = 0;
 					for(int x = 0; x < w; x++){
 						for(int y = 0; y < h; y++){
-							image_diff_sum[rx][ry] += Math.pow(ii[x+rx][y+ry] - image_average,2);
+							image_average += ii[x+rx][y+ry];
 						}
 					}
-				}		
-			}
-			double ans = 0;
-			for(int rx = 0; rx < (W-w+1); rx++){
-				for(int ry = 0; ry < (H-h+1); ry++){
-					ans = 0;
+					image_average /= w*h;
+					down_left = 0;
+					down_right = 0;
 					for(int x = 0; x < w; x++){
 						for(int y = 0; y < h; y++){
-							ans += sum_left[x][y] - (ii[x+rx][y+ry] - image_average)/Math.sqrt(image_diff_sum[rx][ry]);
+							down_left += Math.pow(ti[x][y] - templ_average, 2);		
+							down_right += Math.pow(ii[x+rx][y+ry] - image_average, 2);	
 						}
 					}
-					result[rx][ry] = ans;
+					down_left = Math.sqrt(down_left);
+					down_right = Math.sqrt(down_right);
+					sum = 0;
+					for(int x = 0; x < w; x++){
+						for(int y = 0; y < h; y++){
+							up_left = ti[x][y] - templ_average;							
+							up_right = ii[x+rx][y+ry] - image_average;
+							sum += Math.pow(up_left/down_left - up_right/down_right, 2);
+						}
+					}
+					result[rx][ry] = sum;
+					//System.out.println(result[rx][ry] + "[" +rx+"]"+"["+ry+"]");
 				}		
 			}
 			min(result, W-w+1, H-h+1);	
 		}
-		
-		/*int temp_up = 0;
-		int temp_down2 = 0;	
-		double temp_down1 = 0;	
-		int temp1_sum = 0;	
-		
-		for(int x = 0; x < w; x++){
-			for(int y = 0; y < h; y++){
-				temp1_sum += Math.pow(ti[x][y], 2);
+		else if(formula_index == 3){
+			int temp_up = 0;
+			int temp_down2 = 0;	
+			double temp_down1 = 0;	
+			int temp1_sum = 0;	
+			
+			for(int x = 0; x < w; x++){
+				for(int y = 0; y < h; y++){
+					temp1_sum += Math.pow(ti[x][y], 2);
+				}
+			}	
+			temp_down1 = Math.sqrt(temp1_sum);
+			for(int rx = 0; rx < (W-w+1); rx++){
+				for(int ry = 0; ry < (H-h+1); ry++){
+					temp_up = 0;
+					temp_down2 = 0;
+					for(int x = 0; x < w; x++){
+						for(int y = 0; y < h; y++){
+							temp_up += Math.pow((ti[x][y]-ii[(rx+x)][ry+y]),2);
+							temp_down2 += Math.pow(ii[(rx+x)][ry+y], 2);
+						}
+					}	
+					result[rx][ry] = temp_up/temp_down1/Math.sqrt(temp_down2);
+					//System.out.println(result[r][ry] + "["+r+"]" +ry);
+				}		
 			}
-		}	
-		temp_down1 = Math.sqrt(temp1_sum);
-		for(int rx = 0; rx < (W-w+1); rx++){
-			for(int ry = 0; ry < (H-h+1); ry++){
-				temp_up = 0;
-				temp_down2 = 0;
-				for(int x = 0; x < w; x++){
-					for(int y = 0; y < h; y++){
-						temp_up += Math.pow((ti[x][y]-ii[(rx+x)][ry+y]),2);
-						temp_down2 += Math.pow(ii[(rx+x)][ry+y], 2);
-					}
-				}	
-				result[rx][ry] = temp_up/temp_down1/Math.sqrt(temp_down2);
-				//System.out.println(result[r][ry] + "["+r+"]" +ry);
-			}		
-		}*/
+			min(result, W-w+1, H-h+1);	
+		}
 				
-		Graphics2D g2d = buf_image1_temp.createGraphics();
+		g2d = buf_image1_temp.createGraphics();
+		g2d.setStroke(new BasicStroke(3));
 	    g2d.draw(new Rectangle2D.Double(getMatchLoc().x, getMatchLoc().y, w, h));
-	    g2d.dispose();
-	
+	    //g2d.dispose();
+
 		return result;
+	}
+	public void remove(){
+		g2d.clearRect(getMatchLoc().x, getMatchLoc().y, w, h);
 	}
 	public Point getMatchLoc(){
 		return matchLoc;
@@ -232,13 +228,13 @@ public class TemplateMatching {
 		setCorrFunc(arr[0][0]);
 		for(int x = 0; x < w; x++){
 			for(int y = 0; y < h; y++){
-				if(getCorrFunc() > arr[x][y]){
+				if(getCorrFunc() < arr[x][y]){
 					setCorrFunc(arr[x][y]);
 					setMatchLoc(x, y);
 				}
 			}
 		}
-		//System.out.println("MAX: " + max_int+"---"+max.x + " and "+max.y);
+		System.out.println("MAX: " + getCorrFunc()+"---"+getMatchLoc().x + " and "+getMatchLoc().y);
 	}
 	public void min(double[][] arr, int w,int h){
 		setCorrFunc(arr[0][0]);
@@ -250,7 +246,7 @@ public class TemplateMatching {
 				}
 			}
 		}
-		//System.out.println("MIN: " +"---"+min.x + " and "+min.y);
+		System.out.println("MIN: " + getCorrFunc()+"---"+getMatchLoc().x + " and "+getMatchLoc().y);
 	}
 	public Point getCoord(int coord, int h){
 		Point p = new Point();
@@ -331,14 +327,14 @@ public class TemplateMatching {
 			e.printStackTrace();
 		}
 }*/
-class TemplateMatchingLib {
-  /*public static void main(String[] args) {
+/*class TemplateMatchingLib {
+  public static void main(String[] args) {
     System.out.println("Hello, OpenCV");
 
     // Load the native library.
     System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     new TemplateMatchingLibFunctions().run();
-  }*/
+  }
   public static BufferedImage run(BufferedImage myimg_buf, BufferedImage mytempl_buf) {
 	System.out.println("Hello, OpenCV");
 
@@ -405,5 +401,5 @@ class TemplateMatchingLib {
 	  mat.put(0, 0, data);
 	  return mat;
   }
-}
+}*/
 

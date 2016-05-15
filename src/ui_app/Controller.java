@@ -1,7 +1,6 @@
 package ui_app;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -9,14 +8,6 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
-
 import com.mortennobel.imagescaling.ResampleOp;
 
 public class Controller {
@@ -40,14 +31,16 @@ public class Controller {
             return fileName.substring(fileName.lastIndexOf(".")+1);
         else return "";
     }
-	public static ImageIcon makeNewSize(BufferedImage buf_image2, double zoomscale){
+	public static ImageIcon makeNewSize(BufferedImage buf_image, double zoomscale){
 		ImageIcon imageIcon2 = null;
-		if(buf_image2 != null){
-	    	ResampleOp resampleOp2 = new ResampleOp((int) (buf_image2.getWidth() * zoomscale), (int) (buf_image2.getHeight() * zoomscale));
-	        BufferedImage resizedIcon2 = resampleOp2.filter(buf_image2, null);
-	        imageIcon2 = new ImageIcon(resizedIcon2);	        
+		BufferedImage resizedIcon = null;
+		if(buf_image != null){
+	    	ResampleOp resampleOp = new ResampleOp((int) (buf_image.getWidth() * zoomscale), (int) (buf_image.getHeight() * zoomscale));
+	        resizedIcon = resampleOp.filter(buf_image, null);
+	        imageIcon2 = new ImageIcon(resizedIcon);	        
 		}
 		return imageIcon2;
+		//return resizedIcon;
     }
 	public static BufferedImage deepCopy(BufferedImage bi) {		 
   	 	 ColorModel cm = bi.getColorModel();
@@ -55,5 +48,12 @@ public class Controller {
 		 WritableRaster raster = bi.copyData(null);
 		 return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
 	}
+    public static BufferedImage copyImage(BufferedImage source){
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        return b;
+    }
 
 }
