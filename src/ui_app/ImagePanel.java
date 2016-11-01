@@ -71,7 +71,8 @@ public class ImagePanel extends JLabel {
 		super.paintComponent(g);
 		if(!remove){
 			Graphics2D g2 = (Graphics2D) g;
-			g2.setColor(Color.white);
+			//g2.setColor(Color.white);
+			g2.setStroke(new BasicStroke(2));
 			g2.draw(rect);			
 			g2.dispose();
 		}

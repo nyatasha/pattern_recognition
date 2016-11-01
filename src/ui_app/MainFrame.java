@@ -60,8 +60,7 @@ public class MainFrame extends JFrame {
     String[] formulas = {
             "NCC",
             "SSD",
-            "NSSD",
-            "standart"
+            "NSSD"
     };
     //Controller controller = new Controller();
     TemplateMatching templateMatch = new TemplateMatching();
@@ -81,9 +80,8 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         super("");
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        setSize(558, kit.getScreenSize().height - 70);
-        setLocation((kit.getScreenSize().width - WIDTH) / 2, 5);
+        setSize(558, 750);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         createGUIelements();
     }
@@ -91,7 +89,7 @@ public class MainFrame extends JFrame {
     public void createGUIelements() {
         panel1 = new JPanel();
         setContentPane(panel1);
-
+        panel1.setLayout(null);
         panel1.addMouseWheelListener(new MouseWheelListener() {
             public void mouseWheelMoved(MouseWheelEvent e) {
                     int notches = e.getWheelRotation();
@@ -105,21 +103,19 @@ public class MainFrame extends JFrame {
                     }
             }
         });
-        panel1.setLayout(null);
 
         openButton1 = new JButton("Open image 1");
         openButton1.setBounds(59, 11, 160, 23);
         panel1.add(openButton1);
         openButton1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	openImage(imgLabel1, 1);
+                openImage(imgLabel1, 1);
             }
         });
 
         openButton2 = new JButton("Open image 2");
         openButton2.setBounds(317, 11, 160, 23);
         panel1.add(openButton2);
-
         openButton2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 openImage(imgLabel2, 2);
@@ -154,8 +150,8 @@ public class MainFrame extends JFrame {
 
         slider = new JSlider();
         slider.setEnabled(false);
-        slider.setBounds(171, 306, 200, 31);
-        slider.setValue(50);
+        slider.setBounds(178, 296, 200, 31);
+        slider.setValue(60);
         slider.setMinorTickSpacing(5);
         slider.setMajorTickSpacing(10);
         slider.setSnapToTicks(true);
@@ -175,40 +171,38 @@ public class MainFrame extends JFrame {
         panel1.add(compareButton);
         compareButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	BufferedImage buf = buf_image2_temp.getSubimage(imgLabel1.getCoords(0), imgLabel1.getCoords(1),
+            	BufferedImage buf = null;
+            	if(imgLabel1.getCoords(0) != 0 && imgLabel1.getCoords(1) != 0 &&
+            			imgLabel1.getCoords(2) != 0 && imgLabel1.getCoords(3) != 0){
+            	buf = buf_image1_temp.getSubimage(imgLabel1.getCoords(0), imgLabel1.getCoords(1),
                         imgLabel1.getCoords(2), imgLabel1.getCoords(3));
+            	}
+                else
+                    JOptionPane.showMessageDialog(panel1, "Select region of interest", "Error", JOptionPane.ERROR_MESSAGE);
 				if(buf_image1 != null && buf_image2 != null && buf != null)
-            	{
+            	{					
             		int formula_index = chooseFormulaBox.getSelectedIndex();  
             		BufferedImage temp2 = Controller.deepCopy(buf_image2_temp);
-                    
-                    /*if (buf != null) {
-                        File outputfile = new File("croppedImage.jpg");
-                        try {
-                            ImageIO.write(buf, "jpg", outputfile);
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }*/
-                    double[][] arr = templateMatch.compare(buf_image2_temp, buf, formula_index);
 
+                    ///double[][] arr = templateMatch.compare(buf_image2_temp, buf, formula_index);
+
+                    imgLabel1.setIcon(Controller.makeNewSize(buf_image1_temp, zoom));
+                    imgLabel2.setIcon(Controller.makeNewSize(templateMatch.compare(buf_image2_temp, buf, formula_index), zoom));
             		int w = buf_image2_temp.getWidth()-buf.getWidth()+1;
-            		refreshChart(arr, w, templateMatch.getMatchLoc().y);         	
-            		lblAnswer.setText("<html>" + "Original at  ["+ imgLabel1.getCoords(0) + ", " + imgLabel1.getCoords(1) + "]"+  ", " + 
-            				"Offset:  [" + (imgLabel1.getCoords(0)- templateMatch.getMatchLoc().x) +  ", " +
-                            (imgLabel1.getCoords(1)- templateMatch.getMatchLoc().y) + "]" + "<br>" +
-                            "Best match at [" + templateMatch.getMatchLoc().x +
-            				", " + templateMatch.getMatchLoc().y + "] = " 
-                            + (Math.rint(templateMatch.getCorrFunc()*1e3)/1e3) + "</html>");
 
-            		imgLabel1.setIcon(Controller.makeNewSize(buf_image1_temp, zoom));
-            		imgLabel2.setIcon(Controller.makeNewSize(buf_image2_temp, zoom));
+                    //refreshChart(arr, w, templateMatch.getMatchLoc().y);
+
+            		lblAnswer.setText("<html>" + "Original at  ["+ imgLabel1.getCoords(0) + ", " + imgLabel1.getCoords(1) + "]" + "<br>" +
+                            "Best match at [" + templateMatch.getMatchLoc().x +
+            				", " + templateMatch.getMatchLoc().y + "] = " +
+                            (Math.rint(templateMatch.getCorrFunc()*1e6)/1e6) + "<br>" +
+                            "Offset:  [" + Math.abs(imgLabel1.getCoords(0)- templateMatch.getMatchLoc().x) +  ", " +
+            				Math.abs(imgLabel1.getCoords(1)- templateMatch.getMatchLoc().y) + "]"+"</html>");
+
             		buf_image2_temp = Controller.deepCopy(temp2);
             	}
 				else 
 					JOptionPane.showMessageDialog(panel1, "Open images and select region of interest", "Error", JOptionPane.ERROR_MESSAGE);
-				//buf_image1_temp = TemplateMatching.run(buf_image1_temp, buf_image2_temp);
-				//new SwingWrapper(getChart()).displayChart();
             }          
 
         });
@@ -222,7 +216,8 @@ public class MainFrame extends JFrame {
         		if(buf_image1 != null && buf_image2 != null){
         			imgLabel1.removeRect();
         			//imgLabel1.setIcon(Controller.makeNewSize(buf_image1_temp, zoom));
-        			imgLabel2.setIcon(Controller.makeNewSize(buf_image2_temp, zoom));        			
+        			imgLabel2.setIcon(Controller.makeNewSize(buf_image2_temp, zoom));
+                    lblFormula.setText("Answer will be here");
         		}
         		else
         			JOptionPane.showMessageDialog(panel1, "First open both images", "Error", JOptionPane.ERROR_MESSAGE);
@@ -239,12 +234,12 @@ public class MainFrame extends JFrame {
         lblAnswer.setHorizontalAlignment(SwingConstants.LEFT);
         lblAnswer.setFont(new Font("Tahoma", Font.BOLD, 11));
         lblAnswer.setText("Answer will be here");
-        lblAnswer.setBounds(312, 337, 220, 33);
+        lblAnswer.setBounds(280, 327, 251, 45);
         panel1.add(lblAnswer);
         lblAnswer.setBorder(LineBorder.createGrayLineBorder());
 
-        lblFormula = new JLabel("Choose a formula");/////???????????????????????
-        lblFormula.setBounds(10, 344, 117, 20);
+        lblFormula = new JLabel("Choose formula");
+        lblFormula.setBounds(20, 344, 117, 20);
         panel1.add(lblFormula);
 
         chooseFormulaBox = new JComboBox(formulas);
@@ -252,7 +247,45 @@ public class MainFrame extends JFrame {
         chooseFormulaBox.setBounds(137, 344, 82, 20);
         panel1.add(chooseFormulaBox);
 
-        //imgPanel2.addMouseListener(new PopClickListener());
+        /*Box openBox = Box.createHorizontalBox();
+        openBox.add(Box.createVerticalStrut(50));
+        openBox.add(openButton1);
+        openBox.add(Box.createHorizontalStrut(30));
+        openBox.add(openButton2);
+        openBox.setMaximumSize(openBox.getPreferredSize());
+
+        Box imageBox = Box.createHorizontalBox();
+        imageBox.add(Box.createHorizontalStrut(40));
+        imageBox.add(scrollPane1);
+        imageBox.add(Box.createHorizontalStrut(10));
+        imageBox.add(scrollPane2);
+
+        Box compareBox = Box.createHorizontalBox();
+        compareBox.add(compareButton);
+        compareBox.add(Box.createHorizontalStrut(5));
+        compareBox.add(clearButton);
+        compareBox.add(Box.createHorizontalStrut(5));
+        compareBox.add(slider);
+        compareBox.add(Box.createHorizontalStrut(5));
+        compareBox.add(chooseChanneBox);
+
+        Box formulaBox = Box.createHorizontalBox();
+        formulaBox.add(lblFormula);
+        formulaBox.add(Box.createHorizontalStrut(5));
+        formulaBox.add(chooseFormulaBox);
+        formulaBox.add(Box.createHorizontalStrut(5));
+        formulaBox.add(lblAnswer);
+
+        Box graphBox = Box.createHorizontalBox();
+        graphBox.add(JchartPanel);
+
+        Box contentBox = Box.createVerticalBox();
+        contentBox.add(openBox);
+        contentBox.add(imageBox);
+        contentBox.add(compareBox);
+        contentBox.add(formulaBox);
+        contentBox.add(graphBox);
+        getContentPane().add(contentBox, BorderLayout.CENTER);*/
     }
     class PopUpDemo extends JPopupMenu {
         JMenuItem anItem;
@@ -286,6 +319,7 @@ public class MainFrame extends JFrame {
 	public void resizeImage() {
 		if (buf_image1_temp != null) {
 			imgLabel1.setIcon(Controller.makeNewSize(buf_image1_temp, zoom));
+			imgLabel1.removeRect();			
 		}
 		if (buf_image2_temp != null) {
 			imgLabel2.setIcon(Controller.makeNewSize(buf_image2_temp, zoom));
@@ -317,7 +351,6 @@ public class MainFrame extends JFrame {
 	}
 
 	public void openImage(ImagePanel imgLabel, int numberOfImage) {
-		Dimension dim = new Dimension();
 		JFileChooser file = new JFileChooser();
 		file.setCurrentDirectory(new File("."));
 		//filter the files
@@ -335,6 +368,9 @@ public class MainFrame extends JFrame {
 			    slider.setEnabled(true);
 			    clearButton.setEnabled(true);
 			    compareButton.setEnabled(true);
+			    zoom = 1;
+			    slider.setValue(50);
+			    imgLabel.removeRect();
 			} else
 				JOptionPane.showMessageDialog(panel1, "Could not open file", "Error", JOptionPane.ERROR_MESSAGE);
 		}
