@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e865bfe1-9e49-456e-b6eb-4f6127f50fd1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/artifacts/coursework.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/croppedImage.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/head.jpg" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/image.jpg" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/ImagePanel.class" afterPath="$PROJECT_DIR$/bin/ui_app/ImagePanel.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$1.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$2.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$3.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$4.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$5.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$6.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$7.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$8.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$8.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$PopClickListener.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$PopClickListener.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame$PopUpDemo.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame$PopUpDemo.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/MainFrame.class" afterPath="$PROJECT_DIR$/bin/ui_app/MainFrame.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/ui_app/TemplateMatching.class" afterPath="$PROJECT_DIR$/bin/ui_app/TemplateMatching.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/UIproject_eclipse.iml" afterPath="$PROJECT_DIR$/UIproject_eclipse.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui_app/ImagePanel.java" afterPath="$PROJECT_DIR$/src/ui_app/ImagePanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui_app/MainFrame.java" afterPath="$PROJECT_DIR$/src/ui_app/MainFrame.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ui_app/TemplateMatching.java" afterPath="$PROJECT_DIR$/src/ui_app/TemplateMatching.java" />
-    </list>
+    <list default="true" id="e865bfe1-9e49-456e-b6eb-4f6127f50fd1" name="Default" comment="" />
     <ignored path="UIproject_eclipse.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/bin/" />
@@ -170,7 +143,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH" value="264" />
   </component>
@@ -449,19 +422,27 @@
       <option name="presentableId" value="Default" />
       <updated>1477916424041</updated>
     </task>
+    <task id="LOCAL-00001" summary="01.11">
+      <created>1478002073969</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1478002073969</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22183098" sideWeight="0.5021482" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22183098" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22183098" sideWeight="0.49785176" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31455398" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -491,6 +472,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="01.11" />
+    <option name="LAST_COMMIT_MESSAGE" value="01.11" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
