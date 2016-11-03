@@ -64,7 +64,7 @@ public class MainFrame extends JFrame {
     };
     //Controller controller = new Controller();
     TemplateMatching templateMatch = new TemplateMatching();
-
+ String blah = "";
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
